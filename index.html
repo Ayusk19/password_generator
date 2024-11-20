@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Password Generator | Basic JavaScript Project</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Random <br><span>Password Generator</span></h1>
+        <div class="display">
+            <input type="text" id="password" placeholder="Password">
+            <img src="images/copy.png" alt="Copy" onclick="copyPassword()">
+        </div>
+        <button onclick="createPassword()">
+            <img src="images/generate.png" alt="Generate">Generate Password
+        </button>
+    </div>
+
+    <script>
+        const passwordBox = document.getElementById("password");
+        const length = 12;
+
+        const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const lowerCase = "abcdefghijklmnopqrstuvwxyz";
+        const number = "0123456789";
+        const symbol = "!@#$%^&*_-=+<>?`~";
+
+        const allChars = upperCase + lowerCase + number + symbol;
+
+        function createPassword() {
+            let password = "";
+
+            // Ensure at least one character of each type
+            password += upperCase[Math.floor(Math.random() * upperCase.length)];
+            password += lowerCase[Math.floor(Math.random() * lowerCase.length)];
+            password += number[Math.floor(Math.random() * number.length)];
+            password += symbol[Math.floor(Math.random() * symbol.length)];
+
+            // Fill the rest of the password with random characters
+            while (password.length < length) {
+                password += allChars[Math.floor(Math.random() * allChars.length)];
+            }
+
+            // Shuffle the password to randomize character positions
+            password = password.split('').sort(() => Math.random() - 0.5).join('');
+
+            // Assign the generated password to the input box
+            passwordBox.value = password;
+        }
+
+        function copyPassword() {
+            // Copy the password to clipboard
+            if (passwordBox.value !== "") {
+                passwordBox.select();
+                document.execCommand("copy");
+                alert("Password copied to clipboard!");
+            } else {
+                alert("Generate a password first!");
+            }
+        }
+    </script>
+</body>
+</html>
